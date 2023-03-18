@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -35,9 +35,9 @@ import USERLIST from '../_mock/user';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'stream', label: 'Stream', alignRight: false },
+  { id: 'YOP', label: 'year of pass', alignRight: false },
+  { id: 'Percentage', label: 'Percentage', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
@@ -68,7 +68,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) =>( _user.firstName,_user.lastName).toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -88,6 +88,8 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+
+  const AvatarUrl =  `../../assets/images/avatars/avatar_1.jpg`
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -140,11 +142,27 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
+  const [USERLIST,setUSERLIST] = useState([])
+    useEffect(() =>{
+        getApplications();
+    },[]);
+    const getApplications = async () =>{   
+        let result = await fetch('http://localhost:6001/getApplications',{
+            headers:{
+                authorization:JSON.parse(localStorage.getItem('token'))
+            }
+        });
+        result = await result.json();
+        console.log(result)
+        setUSERLIST(result)
+    }
+    console.log("yash",USERLIST.length)
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
+  
 
   return (
     <>
@@ -181,6 +199,7 @@ export default function UserPage() {
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, name, role, status, company, avatarUrl, isVerified } = row;
                     const selectedUser = selected.indexOf(name) !== -1;
+                    
 
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
@@ -192,19 +211,19 @@ export default function UserPage() {
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Avatar alt={name} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {row.firstName} {row.lastName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                         <TableCell align="left">{row.stream}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{row.yearOfPassout}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{row.Percentage}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(row.shortlisted)}</Label>
                         </TableCell>
 
                         <TableCell align="right">
