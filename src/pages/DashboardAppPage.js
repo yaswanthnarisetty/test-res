@@ -3,8 +3,10 @@ import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 // components
 import Iconify from '../components/iconify';
+
 // sections
 import {
   AppTasks,
@@ -18,11 +20,28 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 
+
 // ----------------------------------------------------------------------
+
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-
+  const [fullStack,setfullStack] = useState([])
+    useEffect(() =>{
+        getApplications();
+    },[]);
+    const getApplications = async () =>{   
+        let result = await fetch('http://localhost:6001/fullstack ',{
+            headers:{
+                authorization:JSON.parse(localStorage.getItem('token'))
+            }
+        });
+        result = await result.json();
+        console.log(result)
+        setfullStack(result)
+    }
+    const fullStackLength = fullStack.length
+    console.log(fullStackLength)
   return (
     <>
       <Helmet>
@@ -36,7 +55,7 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="FullStack" total={fullStackLength} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

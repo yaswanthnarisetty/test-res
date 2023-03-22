@@ -1,0 +1,15 @@
+.App .MuiInputBase-root{
+    padding: 16.5px 14px !important;
+}
+.dropdown-content {
+    background-color: aliceblue;
+    position: relative;
+  }
+  
+  .rmsc .dropdown-content {
+    z-index: 999 !important;
+  }
+
+a {
+    text-decoration: none;
+} 

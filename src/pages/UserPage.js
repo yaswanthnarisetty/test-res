@@ -22,14 +22,17 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import UpdateApplication from "../layouts/form/updateForm"
 // mock
 import USERLIST from '../_mock/user';
+
 
 // ----------------------------------------------------------------------
 
@@ -87,11 +90,18 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [rowId,setRowId] = useState()
 
   const AvatarUrl =  `../../assets/images/avatars/avatar_1.jpg`
-  const handleOpenMenu = (event) => {
+
+
+  const params = useParams()
+
+  const handleOpenMenu = (event,id) => {
+    setRowId(id)
     setOpen(event.currentTarget);
+
+    
   };
 
   const handleCloseMenu = () => {
@@ -157,12 +167,28 @@ export default function UserPage() {
         setUSERLIST(result)
     }
     console.log("yash",USERLIST.length)
+
+  const deleteApplicant = async (id) =>{
+    console.log(id)
+  let result = await fetch(`http://localhost:6001/getdetails/${id}`,{
+      method:'Delete',
+      headers:{
+          authorization:JSON.parse(localStorage.getItem('token'))
+      }
+  });
+  result = await result.json();
+  if(result){
+    alert(`application deleted successfully`)
+    getApplications();
+  }
+}
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
   
+  const [id,setId] = useState("")
 
   return (
     <>
@@ -175,9 +201,11 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
+          <Link to="/ApplicationForm">
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New User
           </Button>
+          </Link>
         </Stack>
 
         <Card>
@@ -209,7 +237,7 @@ export default function UserPage() {
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={name} src={row.profileImage} />
                             <Typography variant="subtitle2" noWrap>
                               {row.firstName} {row.lastName}
                             </Typography>
@@ -227,7 +255,7 @@ export default function UserPage() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                          <IconButton size="large" color="inherit" onClick={(event)=>handleOpenMenu(event,row._id)}>
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
@@ -298,12 +326,13 @@ export default function UserPage() {
           },
         }}
       >
-        <MenuItem>
+         <Link to={`/UpdateApplication/${rowId}`}>
+        <MenuItem >
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
+        </Link>
+        <MenuItem onClick={() =>deleteApplicant(rowId)} sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>

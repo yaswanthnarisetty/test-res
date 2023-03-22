@@ -9,6 +9,8 @@ import Page404 from './pages/Page404';
 import PrivateComponent from './privateComponent';
 
 import DashboardAppPage from './pages/DashboardAppPage';
+import ApplicationForm from './layouts/form/form';
+import UpdateApplication from './layouts/form/updateForm';
 
 
 // ----------------------------------------------------------------------
@@ -25,7 +27,13 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
+        
       ],
+    },
+    {
+      path:'/UpdateApplication/:id',
+      element:<UpdateApplication/>
+
     },
     {
       element: <SimpleLayout />,
@@ -33,8 +41,10 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
+        {path:'ApplicationForm',element:<ApplicationForm/>}
       ],
     },
+    
     {
       path: '*',
       element: <Navigate to="/404" replace />,
