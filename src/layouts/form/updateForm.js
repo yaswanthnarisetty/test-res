@@ -13,6 +13,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { Navigate,useNavigate,useParams } from "react-router-dom";
 import ImgUpload from "./imgUpload";
 import FileUpload from "./fileUpload";
+import Nav from "../dashboard/nav";
 
 export default function UpdateApplication() {
     const [firstName, setfirstName] = useState("");
@@ -82,7 +83,7 @@ export default function UpdateApplication() {
     },[])
 
       const getApplicantDetails = async () =>{
-        let result = await fetch(`http://localhost:6001/getApplications/${params.id}`,{
+        let result = await fetch(`http://localhost:6001/getdetails/${params.id}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -158,25 +159,21 @@ export default function UpdateApplication() {
 
        return (
         <div>
-          
+          <Nav/>
         <div className="App">
           <Typography gutterBottom variant="h3" align="center">
-            React-App
+            Update details
           </Typography>
           <Grid>
             <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" }}>
               <CardContent>
-                <Typography gutterBottom variant="h5">
-                  Contact Us
-                </Typography>
                 <Typography
                   variant="body2"
                   color="textSecondary"
                   component="p"
                   gutterBottom
                 >
-                  Fill up the form and our team will get back to you within 24
-                  hours.
+                  Update the fields you want
                 </Typography>
                 <form>
                   <Grid container spacing={1}>

@@ -27,11 +27,16 @@ import {
 export default function DashboardAppPage() {
   const theme = useTheme();
   const [fullStack,setfullStack] = useState([])
+  const [devOps,setdevOps] = useState([])
+  const [SalesForce,setSalesForce] = useState([])
+  const [others,setOthers] = useState([])
+  
     useEffect(() =>{
         getApplications();
     },[]);
     const getApplications = async () =>{   
-        let result = await fetch('http://localhost:6001/fullstack ',{
+
+        let result = await fetch(`http://localhost:6001/getStackDetails/${"fullstack"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -39,9 +44,46 @@ export default function DashboardAppPage() {
         result = await result.json();
         console.log(result)
         setfullStack(result)
+
+        result = await fetch(`http://localhost:6001/getStackDetails/${"DevOps"}`,{
+            headers:{
+                authorization:JSON.parse(localStorage.getItem('token'))
+            }
+        });
+        result = await result.json();
+        console.log(result)
+        setdevOps(result)
+
+        result = await fetch(`http://localhost:6001/getStackDetails/${"SalesForce"}`,{
+            headers:{
+                authorization:JSON.parse(localStorage.getItem('token'))
+            }
+        });
+        result = await result.json();
+        console.log(result)
+        setSalesForce(result)
+//
+        result = await fetch(`http://localhost:6001/getStackDetails/${"others"}`,{
+          headers:{
+              authorization:JSON.parse(localStorage.getItem('token'))
+          }
+        });
+        result = await result.json();
+        console.log(result)
+        setOthers(result)
     }
-    const fullStackLength = fullStack.length
-    console.log(fullStackLength)
+    let SalesForceLength = 0
+     let fullStackLength =0
+     let devOpsLength = 0
+     let othersLength = 0
+     othersLength = others.length
+     fullStackLength = fullStack.length
+     devOpsLength = devOps.length
+     if(SalesForceLength>0){
+      SalesForceLength = SalesForce.length
+     }
+     
+
   return (
     <>
       <Helmet>
@@ -59,18 +101,18 @@ export default function DashboardAppPage() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="Devops" total={devOpsLength} color="info" icon={'ant-design:apple-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="SalesForce" total={SalesForceLength} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="others" total={othersLength} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
@@ -108,9 +150,9 @@ export default function DashboardAppPage() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
@@ -126,9 +168,9 @@ export default function DashboardAppPage() {
                 theme.palette.error.main,
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Conversion Rates"
               subheader="(+43%) than last year"
@@ -145,9 +187,9 @@ export default function DashboardAppPage() {
                 { label: 'United Kingdom', value: 1380 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -158,9 +200,9 @@ export default function DashboardAppPage() {
               ]}
               chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="News Update"
               list={[...Array(5)].map((_, index) => ({
@@ -171,9 +213,9 @@ export default function DashboardAppPage() {
                 postedAt: faker.date.recent(),
               }))}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
               list={[...Array(5)].map((_, index) => ({
@@ -189,9 +231,9 @@ export default function DashboardAppPage() {
                 time: faker.date.past(),
               }))}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite
               title="Traffic by Site"
               list={[
@@ -217,9 +259,9 @@ export default function DashboardAppPage() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppTasks
               title="Tasks"
               list={[
@@ -230,7 +272,7 @@ export default function DashboardAppPage() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

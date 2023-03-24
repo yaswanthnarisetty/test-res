@@ -11,6 +11,7 @@ import PrivateComponent from './privateComponent';
 import DashboardAppPage from './pages/DashboardAppPage';
 import ApplicationForm from './layouts/form/form';
 import UpdateApplication from './layouts/form/updateForm';
+import ApplicantDetails from './layouts/form/ApplicantDetails';
 
 
 // ----------------------------------------------------------------------
@@ -35,6 +36,12 @@ export default function Router() {
       element:<UpdateApplication/>
 
     },
+    {
+      path:'/ApplicantDetails/:id',
+      element:<ApplicantDetails/>
+
+    },
+
     {
       element: <SimpleLayout />,
       children: [

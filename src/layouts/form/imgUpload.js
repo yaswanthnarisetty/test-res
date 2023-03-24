@@ -78,7 +78,7 @@ function ImgUpload(props) {
     <section className="container">
       <div {...getRootProps({className: 'dropzone'})}>
         <input {...getInputProps()} />
-        <Button variant='contained' sx={{marginTop: "1em", marginLeft: "0.75em"}} fullWidth>Upload your picture</Button>
+        <Button variant='contained' sx={{marginTop: "1em", marginLeft: "0.75em"}} fullWidth>select your picture</Button>
       </div>
       <aside style={thumbsContainer}>
         {thumbs}

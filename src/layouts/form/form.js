@@ -13,6 +13,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { Navigate, useNavigate } from "react-router-dom";
 import ImgUpload from "./imgUpload";
 import FileUpload from "./fileUpload";
+import Nav from "../dashboard/nav";
 
 
 export default function ApplicationForm() {
@@ -50,6 +51,12 @@ export default function ApplicationForm() {
     { label: "SQL ", value: "SQL" },
     { label: "Java ", value: "Java" },
     { label: "spring ", value: "spring" },
+    { label: "SalesForce ", value: "SalesForce" },
+    { label: "Python ", value: "Python" },
+    { label: "REST API ", value: "REST API" },
+    { label: "GRAPHQL ", value: "GRAPHQL" },
+    
+
     
   ];
   
@@ -71,7 +78,7 @@ export default function ApplicationForm() {
       redirect: 'follow'}).then(response => response.text())
       .then(result => setprofileResume(result))
       .catch(error => console.log('error', error))
-      alert("image uploaded successfully")
+      alert("resume uploaded successfully")
   }
 
   const handleSelectValue = (e) => {
@@ -120,17 +127,14 @@ export default function ApplicationForm() {
   };
   return (
     <div>
-      
+      <Nav/>
     <div className="App">
       <Typography gutterBottom variant="h3" align="center">
-        React-App
+        enter details
       </Typography>
       <Grid>
         <Card style={{ maxWidth: 450, padding: "20px 5px", margin: "0 auto" }}>
           <CardContent>
-            <Typography gutterBottom variant="h5">
-              Contact Us
-            </Typography>
             <Typography
               variant="body2"
               color="textSecondary"
@@ -311,15 +315,25 @@ export default function ApplicationForm() {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    placeholder=" technology Stream"
-                    label="technolgy stream"
-                    variant="outlined"
-                    value={stream}
+                {/* value={stream}
+                    onChange={(e) => setStream(e.target.value)} */}
+                  <FormControl variant="filled" fullWidth>
+                  <InputLabel id="tech-stack">tech stack</InputLabel>
+                  <Select
+                    labelId="tech-stack"
+                    id="demo-simple-select"
+                    label="Level"
+                     value={stream}
                     onChange={(e) => setStream(e.target.value)}
                     fullWidth
                     required
-                  />
+                  >
+                      <MenuItem value="FullStack">fullStack</MenuItem>
+                      <MenuItem value="DevOps">devops</MenuItem>
+                      <MenuItem value="SalesForce">SalesForce</MenuItem>
+                      <MenuItem value="others">others</MenuItem>
+                    </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <InputLabel id="skill-set">skill set</InputLabel>
@@ -414,12 +428,12 @@ export default function ApplicationForm() {
                 <Grid>
                 <Grid fullWidth>
                 <ImgUpload setprofileImage={setprofileImage}/>
-                <Button onClick={handleImageUpload}>Upload</Button>
+                <Button  variant="contained" onClick={handleImageUpload}>Upload</Button>
                 </Grid>
                 
                 <Grid fullWidth>
                 <FileUpload setprofileResume = {setprofileResume}/>
-                <Button onClick={handleResumeUpload}>Upload</Button>
+                <Button variant ="contained" onClick={handleResumeUpload}>Upload</Button>
                 </Grid>
                 </Grid>
                 <Grid item xs={12}>

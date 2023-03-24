@@ -60,7 +60,7 @@ export default function FileUpload(props) {
     <section className="container">
       <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
-        <Button variant='contained' sx={{marginTop: "1em", marginLeft: "0.75em"}} fullWidth>Upload your resume</Button>
+        <Button variant='contained' sx={{marginTop: "1em",marginBottom:'1em', marginLeft: "0.75em"}} fullWidth>Select your resume</Button>
       </div>
       {acceptedFileItems}
     </section>

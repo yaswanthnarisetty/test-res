@@ -41,7 +41,7 @@ const TABLE_HEAD = [
   { id: 'stream', label: 'Stream', alignRight: false },
   { id: 'YOP', label: 'year of pass', alignRight: false },
   { id: 'Percentage', label: 'Percentage', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'resume', label: 'Resume', alignRight: false },
   { id: '' },
 ];
 
@@ -71,7 +71,9 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) =>( _user.firstName,_user.lastName).toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) =>(_user.firstName).toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                  (_user.lastName).toLowerCase().indexOf(query.toLowerCase()) !== -1 );
+
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -123,20 +125,7 @@ export default function UserPage() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
+ 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -225,19 +214,19 @@ export default function UserPage() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
-                    
+                    const { id,role, status, company, avatarUrl, isVerified } = row;
+                    const selectedUser = selected.indexOf(id) !== -1;
+                    const name = row.firstName+row.lastName
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                      <TableRow hover key={id}>
+                        <TableCell >
+                          {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={row.profileImage} />
+                            <Avatar alt={row.firstName} src={row.profileImage} />
                             <Typography variant="subtitle2" noWrap>
                               {row.firstName} {row.lastName}
                             </Typography>
@@ -251,7 +240,8 @@ export default function UserPage() {
                         <TableCell align="left">{row.Percentage}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(row.shortlisted)}</Label>
+                          <Link target='_blank' to={row.profileResume}> <Button variant='contained'>resume</Button> </Link>
+                          {/* <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(row.profileResume)}</Label> */}
                         </TableCell>
 
                         <TableCell align="right">
@@ -326,6 +316,13 @@ export default function UserPage() {
           },
         }}
       >
+        
+        <Link to={`/ApplicantDetails/${rowId}`}>
+        <MenuItem >
+        <Iconify icon={'eva:eye-fill'} sx={{ mr: 2 }} />
+          View
+        </MenuItem>
+        </Link>
          <Link to={`/UpdateApplication/${rowId}`}>
         <MenuItem >
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
