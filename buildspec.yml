@@ -5,7 +5,7 @@ phases:
   pre_build:
     commands:
       - echo installing npm dependencies
-      - npm install
+      - npm install --force
   build:
     commands:
       - npm build
