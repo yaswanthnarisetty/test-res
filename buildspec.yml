@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  install:
+    nodejs: 18
+  pre_build:
+    commands:
+      - echo installing npm dependencies
+      - npm install
+  build:
+    commands:
+      - npm build
+  post_build:
+    commands:
+      - aws s3 cp --recursive --acl public-read ./build s3://v-resume-frontend
+      - aws cloudfront create-invalidation --distribution-id E18LXXIHJTI9E3 --paths '/*'
