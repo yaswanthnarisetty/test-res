@@ -26,7 +26,7 @@ export default function LoginForm() {
 })
   const handleLogin =async () => {
     console.log(email , password)
-    let result = await fetch('http://localhost:6001/login',{
+    let result = await fetch('http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/login',{
         method:'post',
         body:JSON.stringify({email,password}),
         headers:{
@@ -77,10 +77,10 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
+        {/* <Checkbox name="remember" label="Remember me" />
         <Link variant="subtitle2" underline="hover">
           Forgot password?
-        </Link>
+        </Link> */}
       </Stack>
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleLogin}>

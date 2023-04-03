@@ -55,7 +55,7 @@ export default function UpdateApplication() {
       const params = useParams();
 
       const handleImageUpload = async() =>{
-        const imgUrl = await fetch ("http://localhost:6001/uploadImage",{
+        const imgUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadImage",{
           method: 'POST',
           body: profileImage,
           redirect: 'follow'}).then(response => response.text())
@@ -65,7 +65,7 @@ export default function UpdateApplication() {
       }
      
       const handleResumeUpload = async() =>{
-        const resUrl = await fetch ("http://localhost:6001/uploadFile",{
+        const resUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadFile",{
           method: 'POST',
           body: profileResume,
           redirect: 'follow'}).then(response => response.text())
@@ -83,7 +83,7 @@ export default function UpdateApplication() {
     },[])
 
       const getApplicantDetails = async () =>{
-        let result = await fetch(`http://localhost:6001/getdetails/${params.id}`,{
+        let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${params.id}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -117,7 +117,7 @@ export default function UpdateApplication() {
     }
     const updateApplicant =async () => {
       
-        let result = await fetch (`http://localhost:6001/getdetails/${params.id}`,{
+        let result = await fetch (`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${params.id}`,{
            method:'Put',
            body:JSON.stringify({
             firstName,

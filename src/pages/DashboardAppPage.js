@@ -29,14 +29,17 @@ export default function DashboardAppPage() {
   const [fullStack,setfullStack] = useState([])
   const [devOps,setdevOps] = useState([])
   const [SalesForce,setSalesForce] = useState([])
+  const [data,setData] = useState([])
+  const [ERP,setERP]=useState([])
   const [others,setOthers] = useState([])
+
   
     useEffect(() =>{
         getApplications();
     },[]);
     const getApplications = async () =>{   
 
-        let result = await fetch(`http://localhost:6001/getStackDetails/${"fullstack"}`,{
+        let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"FullStack"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -45,7 +48,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setfullStack(result)
 
-        result = await fetch(`http://localhost:6001/getStackDetails/${"DevOps"}`,{
+        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"DevOps"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -54,7 +57,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setdevOps(result)
 
-        result = await fetch(`http://localhost:6001/getStackDetails/${"SalesForce"}`,{
+        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"SalesForce"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -63,20 +66,45 @@ export default function DashboardAppPage() {
         console.log(result)
         setSalesForce(result)
 //
-        result = await fetch(`http://localhost:6001/getStackDetails/${"others"}`,{
+        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"Data"}`,{
           headers:{
               authorization:JSON.parse(localStorage.getItem('token'))
           }
         });
         result = await result.json();
         console.log(result)
-        setOthers(result)
-    }
+        setData(result)
+
+        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"ERP"}`,{
+          headers:{
+              authorization:JSON.parse(localStorage.getItem('token'))
+          }
+        });
+        result = await result.json();
+        console.log(result)
+        setData(result)
+
+
+        
+    
+    result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"others"}`,{
+      headers:{
+          authorization:JSON.parse(localStorage.getItem('token'))
+      }
+    });
+    result = await result.json();
+    console.log(result)
+    setOthers(result)
+}
     let SalesForceLength = 0
      let fullStackLength =0
      let devOpsLength = 0
      let othersLength = 0
+     let dataLength = 0
+     let ERPLength = 0
+     ERPLength = ERP.length
      othersLength = others.length
+     dataLength = data.length
      fullStackLength = fullStack.length
      devOpsLength = devOps.length
      if(SalesForceLength>0){
@@ -87,7 +115,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Dashboard | Vithi IT </title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -106,6 +134,12 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="SalesForce" total={SalesForceLength} color="warning" icon={'ant-design:windows-filled'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Data" total={dataLength} color="error" icon={'ant-design:bug-filled'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="ERP" total={ERPLength} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>

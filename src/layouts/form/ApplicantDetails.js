@@ -54,7 +54,7 @@ export default function ApplicantDetails() {
     }));
 
       const getApplicantDetails = async () =>{
-        let result = await fetch(`http://localhost:6001/getdetails/${params.id}`,{
+        let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${params.id}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -99,7 +99,7 @@ export default function ApplicantDetails() {
                   console.log(item);
                   return (
                     
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} sx={{textTransform: "capitalize"}}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                       <TableHead>
                         <TableRow>
@@ -118,10 +118,10 @@ export default function ApplicantDetails() {
                  <TableHead>
                         <TableRow>
                           <StyledTableCell>Skills</StyledTableCell>
-                          <StyledTableCell>
+                          <StyledTableCell sx={{ display: "flex"}}>
                           {tech.map((item,i) =>{
                           return(
-                            <TableRow sx={{ minWidth: 700 }}>
+                            <TableRow sx={{ minWidth: "auto", display:"flex" }}>
                                 <StyledTableCell>{item}</StyledTableCell> 
                             </TableRow>
                               )

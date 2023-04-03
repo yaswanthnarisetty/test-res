@@ -16,12 +16,15 @@ import FileUpload from "./fileUpload";
 import Nav from "../dashboard/nav";
 
 
+
 export default function ApplicationForm() {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [MobileNo, setMobileNo] = useState("");
+  const [ExistingEmployee, setExistingEmployee] = useState("");
   const [educationQualification, seteducationQualification] = useState("");
+  const [branch, setbranch] = useState("");
   const [yearOfPassout, setyearOfPassout] = useState("");
   const [DateOfBirth, setDateOfBirth] = useState("");
   const [DateOfJoin, setDateOfJoin] = useState("");
@@ -41,7 +44,11 @@ export default function ApplicationForm() {
   const [level,setLevel] = useState("");
   const [profileImage,setprofileImage] = useState("")
   const [profileResume,setprofileResume] = useState("")
-  const options = [
+  let options = [
+    { label: "react.js ", value: "react.js" },
+    { label: "NODE.js ", value: "NODE.js" },
+  ] 
+  const UIoptions = [
     { label: "react.js ", value: "react.js" },
     { label: "NODE.js ", value: "NODE.js" },
     { label: "MongoDB ", value: "MongoDB" },
@@ -55,14 +62,52 @@ export default function ApplicationForm() {
     { label: "Python ", value: "Python" },
     { label: "REST API ", value: "REST API" },
     { label: "GRAPHQL ", value: "GRAPHQL" },
-    
-
-    
   ];
+
+  const AWSoptions = [
+    { label: "AWS", value: "AWS" },
+    { label: "Docker", value: "Docker" },
+    { label: "Jenkins", value: "Jenkins" },
+    { label: "Maven", value: "Maven" },
+    { label: "Terraform ", value: "Terraform" },
+   
+  ];
+  const DataOptions = [
+    { label: "Oracle SQL", value: "OracleSQl" },
+    { label: "Snowflake", value: "Snowflake" },
+    { label: "Tableau", value: "Tableau" },
+    { label: "PowerBI", value: "PowerBI" },
+  ]
+  const SFOptions = [
+    { label: "Apex", value: "Apex" },
+    { label: "Visual Force", value: "VisualForce" },
+    { label: "Lightning aura components (LAC)", value: "LightningAuraComponents" },
+    { label: "lightning web components (LWC)", value: "LightningWebComponents" },
+  ]
+  const ERPOptions = [
+    { label: "Oracle Applications Technical", value: "OracleTechnical",options:SFOptions },
+    { label: "Oracle Applications Functional", value: "OracleFunctional" },
+    { label: "QA-Application Testing", value: "QAApplicationTesting" },
+  ]
+  if(stream === "FullStack"){
+    options = UIoptions
+  }
+  if(stream === "DevOps"){
+    options = AWSoptions
+  }
+  if(stream === "Data"){
+    options = DataOptions
+  }
+  if(stream === "SalesForce"){
+    options = SFOptions
+  }
+  if(stream === "ERP"){
+    options = ERPOptions
+  }
   
 
   const handleImageUpload = async() =>{
-    const imgUrl = await fetch ("http://localhost:6001/uploadImage",{
+    const imgUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadImage",{
       method: 'POST',
       body: profileImage,
       redirect: 'follow'}).then(response => response.text())
@@ -72,7 +117,7 @@ export default function ApplicationForm() {
   }
  
   const handleResumeUpload = async() =>{
-    const resUrl = await fetch ("http://localhost:6001/uploadFile",{
+    const resUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadFile",{
       method: 'POST',
       body: profileResume,
       redirect: 'follow'}).then(response => response.text())
@@ -86,15 +131,18 @@ export default function ApplicationForm() {
   }
   
   const navigate = useNavigate()
+
   const collectData = async () => {
-    let result = await fetch("http://localhost:6001/ApplyForJob", {
+      let result = await fetch("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/ApplyForJob", {
       method: "post",
       body: JSON.stringify({
         firstName,
         lastName,
         email,
         MobileNo,
+        ExistingEmployee,
         educationQualification,
+        branch,
         yearOfPassout,
         DateOfBirth,
         city,
@@ -190,6 +238,23 @@ export default function ApplicationForm() {
                     fullWidth
                     required
                   />
+                  <Grid item xs={12}>
+                  <FormControl variant="filled" fullWidth>
+                  <InputLabel id="existing-status">ExistingEmployee(Yes/No)</InputLabel>
+                  <Select
+                    labelId="existing-status"
+                    id="existing-status-id"
+                    value={ExistingEmployee}
+                    label="ExistingEmployee"
+                    onChange={(e) => setExistingEmployee(e.target.value)}
+                    fullWidth
+                    required
+                  >
+                      <MenuItem value="Yes">Yes</MenuItem>
+                      <MenuItem value="No">No</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
                 </Grid>
                 <Grid item xs={12}>
                 <FormControl variant="filled" fullWidth>
@@ -263,15 +328,39 @@ export default function ApplicationForm() {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="education Qualification"
-                    placeholder="Type your education qualification here"
-                    variant="outlined"
+                {/* value={stream}
+                    onChange={(e) => setStream(e.target.value)} */}
+                  <FormControl variant="filled" fullWidth>
+                  <InputLabel id="edu-stack">education Qualification</InputLabel>
+                  <Select
+                    labelId="edu-stack"
+                    id="demo-simple-select"
+                    label="Level"
                     value={educationQualification}
                     onChange={(e) => seteducationQualification(e.target.value)}
                     fullWidth
                     required
+                  >
+                      <MenuItem value="B.Tech">B.Tech</MenuItem>
+                      <MenuItem value="M.Tech">M.Tech</MenuItem>
+                      <MenuItem value="BSC">B.S.C</MenuItem>
+                      <MenuItem value="MBA">M.B.A</MenuItem>
+                      <MenuItem value="others">others</MenuItem>
+                      
+                    </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="enter Your branch"
+                    label="Branch"
+                    variant="outlined"
+                    value={branch}
+                    onChange={(e) => setbranch(e.target.value)}
+                    fullWidth
+                    required
                   />
+                  
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -323,7 +412,7 @@ export default function ApplicationForm() {
                     labelId="tech-stack"
                     id="demo-simple-select"
                     label="Level"
-                     value={stream}
+                    value={stream}
                     onChange={(e) => setStream(e.target.value)}
                     fullWidth
                     required
@@ -331,7 +420,10 @@ export default function ApplicationForm() {
                       <MenuItem value="FullStack">fullStack</MenuItem>
                       <MenuItem value="DevOps">devops</MenuItem>
                       <MenuItem value="SalesForce">SalesForce</MenuItem>
+                      <MenuItem value="Data">data</MenuItem>
+                      <MenuItem value="ERP">ERP</MenuItem>
                       <MenuItem value="others">others</MenuItem>
+                      
                     </Select>
                     </FormControl>
                 </Grid>

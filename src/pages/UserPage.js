@@ -64,7 +64,7 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array && array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -118,7 +118,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = USERLIST && USERLIST.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -146,7 +146,7 @@ export default function UserPage() {
         getApplications();
     },[]);
     const getApplications = async () =>{   
-        let result = await fetch('http://localhost:6001/getApplications',{
+        let result = await fetch('http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getApplications',{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -159,7 +159,7 @@ export default function UserPage() {
 
   const deleteApplicant = async (id) =>{
     console.log(id)
-  let result = await fetch(`http://localhost:6001/getdetails/${id}`,{
+  let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${id}`,{
       method:'Delete',
       headers:{
           authorization:JSON.parse(localStorage.getItem('token'))
@@ -182,17 +182,17 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> User | Vithi IT </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Applications
           </Typography>
           <Link to="/ApplicationForm">
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
+            New Application
           </Button>
           </Link>
         </Stack>

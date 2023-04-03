@@ -12,7 +12,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import ApplicationForm from './layouts/form/form';
 import UpdateApplication from './layouts/form/updateForm';
 import ApplicantDetails from './layouts/form/ApplicantDetails';
-
+import CheckboxGroup from './layouts/form/form2';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +34,11 @@ export default function Router() {
     {
       path:'/UpdateApplication/:id',
       element:<UpdateApplication/>
+
+    },
+    {
+      path:'/yash',
+      element:<CheckboxGroup/>
 
     },
     {
