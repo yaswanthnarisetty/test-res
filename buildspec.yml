@@ -11,5 +11,5 @@ phases:
       - npm run build
   post_build:
     commands:
-      - aws s3 cp --recursive --acl public-read ./build s3://v-resume-frontend
-      - aws cloudfront create-invalidation --distribution-id E18LXXIHJTI9E3 --paths '/*'
+      - aws s3 cp --recursive --acl public-read ./build s3://vithi-resume-frontend
+      - aws cloudfront create-invalidation --distribution-id E2KMAF247NQFL1 --paths '/*'
