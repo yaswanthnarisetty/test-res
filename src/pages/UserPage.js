@@ -146,7 +146,7 @@ export default function UserPage() {
         getApplications();
     },[]);
     const getApplications = async () =>{   
-        let result = await fetch('http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getApplications',{
+        let result = await fetch('http://13.127.186.192/getApplications',{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -159,7 +159,7 @@ export default function UserPage() {
 
   const deleteApplicant = async (id) =>{
     console.log(id)
-  let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${id}`,{
+  let result = await fetch(`http://13.127.186.192/getdetails/${id}`,{
       method:'Delete',
       headers:{
           authorization:JSON.parse(localStorage.getItem('token'))

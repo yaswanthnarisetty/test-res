@@ -107,7 +107,7 @@ export default function ApplicationForm() {
   
 
   const handleImageUpload = async() =>{
-    const imgUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadImage",{
+    const imgUrl = await fetch ("http://13.127.186.192/uploadImage",{
       method: 'POST',
       body: profileImage,
       redirect: 'follow'}).then(response => response.text())
@@ -117,7 +117,7 @@ export default function ApplicationForm() {
   }
  
   const handleResumeUpload = async() =>{
-    const resUrl = await fetch ("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/uploadFile",{
+    const resUrl = await fetch ("http://13.127.186.192/uploadFile",{
       method: 'POST',
       body: profileResume,
       redirect: 'follow'}).then(response => response.text())
@@ -133,7 +133,7 @@ export default function ApplicationForm() {
   const navigate = useNavigate()
 
   const collectData = async () => {
-      let result = await fetch("http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/ApplyForJob", {
+      let result = await fetch("http://13.127.186.192/ApplyForJob", {
       method: "post",
       body: JSON.stringify({
         firstName,

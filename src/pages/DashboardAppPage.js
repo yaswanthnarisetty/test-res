@@ -39,7 +39,7 @@ export default function DashboardAppPage() {
     },[]);
     const getApplications = async () =>{   
 
-        let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"FullStack"}`,{
+        let result = await fetch(`http://13.127.186.192/getStackDetails/${"FullStack"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -48,7 +48,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setfullStack(result)
 
-        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"DevOps"}`,{
+        result = await fetch(`http://13.127.186.192/getStackDetails/${"DevOps"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -57,7 +57,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setdevOps(result)
 
-        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"SalesForce"}`,{
+        result = await fetch(`http://13.127.186.192/getStackDetails/${"SalesForce"}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }
@@ -66,7 +66,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setSalesForce(result)
 //
-        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"Data"}`,{
+        result = await fetch(`http://13.127.186.192/getStackDetails/${"Data"}`,{
           headers:{
               authorization:JSON.parse(localStorage.getItem('token'))
           }
@@ -75,7 +75,7 @@ export default function DashboardAppPage() {
         console.log(result)
         setData(result)
 
-        result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"ERP"}`,{
+        result = await fetch(`http://13.127.186.192/getStackDetails/${"ERP"}`,{
           headers:{
               authorization:JSON.parse(localStorage.getItem('token'))
           }
@@ -87,7 +87,7 @@ export default function DashboardAppPage() {
 
         
     
-    result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getStackDetails/${"others"}`,{
+    result = await fetch(`http://13.127.186.192/getStackDetails/${"others"}`,{
       headers:{
           authorization:JSON.parse(localStorage.getItem('token'))
       }

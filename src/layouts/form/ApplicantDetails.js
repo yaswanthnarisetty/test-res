@@ -54,7 +54,7 @@ export default function ApplicantDetails() {
     }));
 
       const getApplicantDetails = async () =>{
-        let result = await fetch(`http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/getdetails/${params.id}`,{
+        let result = await fetch(`http://13.127.186.192/getdetails/${params.id}`,{
             headers:{
                 authorization:JSON.parse(localStorage.getItem('token'))
             }

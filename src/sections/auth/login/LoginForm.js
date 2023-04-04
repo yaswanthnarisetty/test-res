@@ -26,7 +26,7 @@ export default function LoginForm() {
 })
   const handleLogin =async () => {
     console.log(email , password)
-    let result = await fetch('http://v-resume-backend-1610023060.ap-south-1.elb.amazonaws.com/login',{
+    let result = await fetch('http://13.127.186.192/login',{
         method:'post',
         body:JSON.stringify({email,password}),
         headers:{
